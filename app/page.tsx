@@ -1,5 +1,5 @@
 import Chat from '@/components/chat';
-import Chat2 from '@/components/chat2';
+
 import LandingSections from '@/components/LandingSections';
 
 export default function HomePage() {
