@@ -20,17 +20,9 @@ import {
   Loader2,
   ArrowDownCircleIcon,
 } from 'lucide-react';
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChat } from '@ai-sdk/react';
-
-import LandingSections from '@/components/LandingSections';
-
-const Pre = React.forwardRef<
-  HTMLPreElement,
-  React.HTMLAttributes<HTMLPreElement> & { children: React.ReactNode }
->((props, ref) => <pre ref={ref} {...props} />);
-Pre.displayName = 'Pre';
+import { Code, UnorderedList, ListItem } from './markdown-components';
 
 export default function Chat() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -80,8 +72,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className='flex flex-col min-h-screen'>
-      <LandingSections />
+    <div className='min-h-screen'>
       <AnimatePresence>
         {showChatIcon && (
           <motion.div
@@ -130,7 +121,7 @@ export default function Chat() {
                   <span className='sr-only'>Close Chat</span>
                 </Button>
               </CardHeader>
-              <CardContent className=''>
+              <CardContent>
                 <ScrollArea className='h-[300px] pr-4'>
                   {messages?.length === 0 && (
                     <div className='flex items-center justify-center gap-3 w-full mt-32 text-gray-500'>
@@ -152,15 +143,11 @@ export default function Chat() {
                         }`}
                       >
                         <ReactMarkdown
-                          // children={message.content}
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            ul: ({ children }) => (
-                              <ul className='list-disc ml-4'>{children}</ul>
-                            ),
-                            li: ({ children }) => (
-                              <li className='ml-4 list-decimal'>{children}</li>
-                            ),
+                            // code: Code,
+                            ul: UnorderedList,
+                            li: ListItem,
                           }}
                         >
                           {message.content}
@@ -206,12 +193,7 @@ export default function Chat() {
                     className='flex-1'
                     placeholder='Type your message...'
                   />
-                  <Button
-                    type='submit'
-                    // className='size-9'
-                    disabled={isLoading}
-                    size='icon'
-                  >
+                  <Button type='submit' disabled={isLoading} size='icon'>
                     <Send className='size-4' />
                   </Button>
                 </form>
